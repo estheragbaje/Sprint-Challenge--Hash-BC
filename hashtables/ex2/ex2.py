@@ -39,4 +39,4 @@ def reconstruct_trip(tickets, length):
         # insert it into postion in routes
         route[i] = preceding_ticket_value
 
-    return route
+    return route[:-1]

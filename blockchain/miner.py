@@ -23,8 +23,11 @@ def proof_of_work(last_proof):
     start = timer()
 
     print("Searching for next proof")
-    proof = 0
     #  TODO: Your code here
+    last_proof_hash = hashlib.sha256(f"{last_proof}".encode()).hexdigest()
+    proof = 0
+    while valid_proof(last_proof_hash, proof) is False:
+        proof += random.getrandbits(32)
 
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
@@ -40,7 +43,12 @@ def valid_proof(last_hash, proof):
     """
 
     # TODO: Your code here!
-    pass
+    # set a initial guess concatonate block string and proof then encode them
+    guess = f"{block_string}{proof}".encode()
+    # create a guess hash and hexdigest it
+    guess_hash = hashlib.sha256(guess).hexdigest()
+    # then return True if the guess hash has the valid number of leading zeros otherwise return False
+    return guess_hash[-6:] == guess_hash[:6]
 
 
 if __name__ == '__main__':

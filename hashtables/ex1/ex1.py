@@ -1,9 +1,8 @@
 #  Hint:  You may not need all of these.  Remove the unused functions.
 from hashtables import (HashTable,
                         hash_table_insert,
-                        hash_table_remove,
                         hash_table_retrieve,
-                        hash_table_resize)
+                       )
 
 
 def get_indices_of_item_weights(weights, length, limit):
@@ -19,11 +18,12 @@ def get_indices_of_item_weights(weights, length, limit):
         current_weight = weights[i]
         # use the hashtable insert function
         hash_table_insert(ht, current_weight, i)
-        # get the index of limit - current weight
+        # get the index of limit - current weight using the retrieve function
         diff = limit - current_weight
         result = hash_table_retrieve(ht, diff)
         # since the order matters, check the size of the indices
-        # of the weights and return in the correct order The higher valued index should be placed in the `zeroth` index 
+        # of the weights and return in the correct order. 
+        # The higher valued index should be placed in the `zeroth` index 
         # and the smaller index should be placed in the `first` index
         if result:
             if length == 2:

@@ -5,6 +5,8 @@ import sys
 
 from uuid import uuid4
 
+import json
+
 from timeit import default_timer as timer
 
 import random
@@ -25,9 +27,11 @@ def proof_of_work(last_proof):
     print("Searching for next proof")
     #  TODO: Your code here
     last_proof_hash = hashlib.sha256(f"{last_proof}".encode()).hexdigest()
-    proof = 0
+    proof = 10000000
     while valid_proof(last_proof_hash, proof) is False:
         proof += random.getrandbits(32)
+
+   
 
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
@@ -56,7 +60,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         node = sys.argv[1]
     else:
-        node = "https://lambda-coin.herokuapp.com/api"
+        node = "https://lambda-coin.herokuapp.com/api/totals"
 
     coins_mined = 0
 

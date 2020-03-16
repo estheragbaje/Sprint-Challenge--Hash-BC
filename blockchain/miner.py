@@ -5,6 +5,8 @@ import sys
 
 from uuid import uuid4
 
+import json
+
 from timeit import default_timer as timer
 
 import random
@@ -21,10 +23,14 @@ def proof_of_work(last_proof):
     """
 
     start = timer()
-
     print("Searching for next proof")
-    proof = 0
     #  TODO: Your code here
+    last_proof_hash = hashlib.sha256(f"{last_proof}".encode()).hexdigest()
+    proof = 100000000000
+    while valid_proof(last_proof_hash, proof) is False:
+        proof += random.getrandbits(32)
+
+  
 
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
@@ -40,7 +46,15 @@ def valid_proof(last_hash, proof):
     """
 
     # TODO: Your code here!
-    pass
+   
+    # create a guess hash and hexdigest it
+    guess = f"{proof}".encode()
+    guess_hash = hashlib.sha256(guess).hexdigest()
+    # guess_hash = hashlib.sha256(f"{proof}".encode()).hexdigest()
+    # then return True if the guess hash has the valid number of leading zeros otherwise return False
+    return last_hash[-6:] == guess_hash[:6]
+
+    
 
 
 if __name__ == '__main__':
@@ -48,7 +62,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         node = sys.argv[1]
     else:
-        node = "https://lambda-coin.herokuapp.com/api"
+        node = "https://lambda-coin.herokuapp.com/api/"
 
     coins_mined = 0
 
